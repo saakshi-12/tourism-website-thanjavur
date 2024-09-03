@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Shops with Filters</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh0njEqr8kKXrqCmO90m2ejTWg9ldZIIY&libraries=places"></script>
+    <style>
+        .filter-section {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .filter-section label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .filter-section input[type="range"] {
+            width: 100%;
+        }
+
+        .results {
+            margin-top: 30px;
+        }
+
+        .shop {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .shop h3 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="filter-section">
+    <h2>Filter Nearby Shops</h2>
+
+    <label for="radius">Distance Radius (km): <span id="radius-value">5</span></label>
+    <input type="range" id="radius" min="1" max="50" value="5" step="1" oninput="updateRadiusValue(this.value)">
+    
+    <label for="rating">Minimum Rating: <span id="rating-value">3</span></label>
+    <input type="range" id="rating" min="1" max="5" value="3" step="0.5" oninput="updateRatingValue(this.value)">
+    
+    <label for="price">Price Range: <span id="price-value">₹145 - ₹10,600</span></label>
+    <input type="range" id="price" min="145" max="10600" value="145" step="100" oninput="updatePriceValue(this.value)">
+    
+    <button onclick="getNearbyPlaces()">Go</button>
+</div>
+
+<div class="results" id="results"></div>
+
+<script>
+// Update filter values display
+function updateRadiusValue(value) {
+    document.getElementById('radius-value').textContent = value;
+}
+
+function updateRatingValue(value) {
+    document.getElementById('rating-value').textContent = value;
+}
+
+function updatePriceValue(value) {
+    document.getElementById('price-value').textContent = `₹145 - ₹${value}`;
+}
+
+// Function to get nearby places using Google Places API
+function getNearbyPlaces() {
+    const radius = document.getElementById('radius').value * 1000; // Convert to meters
+    const minRating = document.getElementById('rating').value;
+    const maxPrice = document.getElementById('price').value;
+
+    const location = new google.maps.LatLng(10.7826, 79.1313); // Example location (Thanjavur)
+    const request = {
+        location: location,
+        radius: radius,
+        type: ['store'], // Type of place (can change to 'restaurant', 'tourist_attraction', etc.)
+        minPriceLevel: 0,
+        maxPriceLevel: maxPrice,
+        keyword: 'handicrafts'
+    };
+
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+
+    service.nearbySearch(request, function (results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            displayResults(results, minRating);
+        }
+    });
+}
+
+// Display the results on the page
+function displayResults(places, minRating) {
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = '';
+
+    places.forEach(place => {
+        if (place.rating >= minRating) {
+            const shopDiv = document.createElement('div');
+            shopDiv.classList.add('shop');
+
+            const shopName = document.createElement('h3');
+            shopName.textContent = place.name;
+            shopDiv.appendChild(shopName);
+
+            const shopRating = document.createElement('p');
+            shopRating.textContent = `Rating: ${place.rating}`;
+            shopDiv.appendChild(shopRating);
+
+            const shopPrice = document.createElement('p');
+            shopPrice.textContent = `Price Level: ${place.price_level || 'N/A'}`;
+            shopDiv.appendChild(shopPrice);
+
+            resultsContainer.appendChild(shopDiv);
+        }
+    });
+}
+</script>
+
+</body>
+</html>

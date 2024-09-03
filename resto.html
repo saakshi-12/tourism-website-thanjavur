@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Restaurants</title>
+    <!-- Link to Bootstrap CSS for styling (optional but recommended) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .header-section {
+            text-align: center;
+            margin: 50px auto;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .header-section h1 {
+            font-size: 2.5rem;
+            font-family: 'Times New Roman', serif;
+            font-weight: bold;
+            color: #fff; /* White text color */
+            background-color: #89ea9e; /* Light blue background color */
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .restaurant-section {
+            margin: 0 auto;
+            width: 90%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .restaurant-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+            width: 300px;
+            text-align: center;
+        }
+
+        .restaurant-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .restaurant-info {
+            padding: 20px;
+        }
+
+        .restaurant-name {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .restaurant-rating {
+            font-size: 1.2rem;
+            color: #ffc107; /* Bootstrap's default star rating color */
+        }
+
+        .restaurant-rating span {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .restaurant-distance {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .restaurant-distance span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header-section">
+        <h1>Restaurants Nearby</h1>
+    </div>
+
+    <!-- Restaurant Section -->
+    <section class="restaurant-section">
+        <!-- Restaurant 1 -->
+        <div class="restaurant-card">
+            <a href="https://maps.app.goo.gl/qfSFuMcBeFgYLJ9Q9">
+                <img src="./lib_res1.jpg" alt="Restaurant 2" class="img-fluid">
+            </a>
+            <div class="restaurant-info">
+                <h2 class="restaurant-name">Sree Ariya Bhavan</h2>
+                <p class="restaurant-rating">★★★★☆ <span>(4.5/5)</span></p>
+                <p class="restaurant-distance"><span>1.4km</span></p>
+            </div>
+        </div>
+
+        <!-- Restaurant 2 -->
+        <div class="restaurant-card">
+            <a href="https://maps.app.goo.gl/23WksULmrZzYvpDM8">
+                <img src="./lib_res2.jpg" alt="Restaurant 2" class="img-fluid">
+            </a>
+            <div class="restaurant-info">
+                <h2 class="restaurant-name">Bombay Sweets</h2>
+                <p class="restaurant-rating">★★★★☆ <span>(4/5)</span></p>
+                <p class="restaurant-distance"><span>1km</span></p>
+            </div>
+        </div>
+
+        <!-- Restaurant 3 -->
+        <div class="restaurant-card">
+            <a href="https://maps.app.goo.gl/kVoetsxCmkwhtY4z9">
+                <img src="./sahan.jpg" alt="Restaurant 2" class="img-fluid">
+            </a>
+            <div class="restaurant-info">
+                <h2 class="restaurant-name">Sahan Restaurant</h2>
+                <p class="restaurant-rating">★★★★★ <span>(4.9/5)</span></p>
+                <p class="restaurant-distance"><span>0.8km</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  -->
+</body>
+</html>

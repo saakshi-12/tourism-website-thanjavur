@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Tourist Sites with Filters</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh0njEqr8kKXrqCmO90m2ejTWg9ldZIIY&libraries=places"></script>
+    <link rel="stylesheet" href="your-existing-styles.css"> <!-- Link to your existing stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* Your existing styles here */
+        .filter-section {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ababab;
+            border-radius: 10px;
+            background-color: #fcf6d8;
+            width: 320px;
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .filter-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .filter-section h2 {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.6em;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .filter-section label {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            color: #555;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .filter-section input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .filter-section button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-section button:hover {
+            background-color: #0056b3;
+        }
+
+        .results {
+            margin-left: 400px;
+            padding: 20px;
+        }
+
+        .shop {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .shop:hover {
+            background-color: #c8dcf2;
+            transform: scale(1.02);
+        }
+
+        .shop img {
+            border-radius: 10px;
+            margin-right: 20px;
+            width: 150px; /* Adjust the width of the image */
+            height: 100px; /* Adjust the height of the image */
+            object-fit: cover; /* Ensure the image covers the entire area */
+        }
+
+        .shop h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #1a6f86;
+        }
+
+        .shop p {
+            margin: 5px 0;
+            font-size: 1.1em;
+            color: #373737;
+        }
+
+        .shop a {
+            font-size: 1.5em;
+            color: #1a6f86;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 10px;
+            display: block; /* Ensure the title is block-level so it can be clicked */
+        }
+
+        .shop a:hover {
+            text-decoration: none;
+        }
+        /* .shop-rating {
+            font-size: 1.2em;
+            color: #f39c12; 
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        } */
+
+        .shop-rating {
+            padding: 20px;
+            font-size: 1.5em;
+            color: #f39c12; /* Gold color for stars */
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .star {
+            margin-right: 2px;
+        }
+
+/* Optional: Customize the color of stars based on the rating */
+.star.empty {
+    color: #ddd; /* Gray for empty stars */
+}
+    </style>
+</head>
+<body>
+
+<div class="filter-section">
+    <h2>Filter Nearby Tourist Sites</h2>
+    <label for="radius">Distance (km): <span id="radius-value">5</span></label>
+    <input type="range" id="radius" min="1" max="50" value="5" step="1" oninput="updateRadiusValue(this.value)">
+    <br/>
+    <label for="rating">Minimum Rating: <span id="rating-value">3</span></label>
+    <input type="range" id="rating" min="1" max="5" value="3" step="0.5" oninput="updateRatingValue(this.value)">
+    <br/>
+    <button onclick="getNearbyPlaces()">Go</button>
+</div>
+
+<div class="results" id="results">
+    <!-- Content for displaying places will be dynamically inserted here -->
+</div>
+
+<script>
+// Update filter values display
+function updateRadiusValue(value) {
+    document.getElementById('radius-value').textContent = value;
+}
+
+function updateRatingValue(value) {
+    document.getElementById('rating-value').textContent = value;
+}
+
+// Function to get nearby places using Google Places API
+function getNearbyPlaces() {
+    const radius = document.getElementById('radius').value * 1000; // Convert to meters
+    const minRating = document.getElementById('rating').value;
+
+    const location = new google.maps.LatLng(10.7823, 79.1310); // Big Temple (Brihadeeswarar Temple) in Thanjavur
+    const request = {
+        location: location,
+        radius: radius,
+        type: ['tourist_attraction'], // Type of place is now 'tourist_attraction'
+        keyword: 'tourist site' // Search for 'tourist site'
+    };
+
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+
+    service.nearbySearch(request, function (results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            displayResults(results, minRating);
+        }
+    });
+}
+
+// Display the results on the page
+function displayResults(places, minRating) {
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = ''; // Clear previous results
+
+    places.forEach(place => {
+        if (place.rating >= minRating) {
+            const shopDiv = document.createElement('div');
+            shopDiv.classList.add('shop');
+
+            // Place image
+            if (place.photos && place.photos.length > 0) {
+                const placeImage = document.createElement('img');
+                placeImage.src = place.photos[0].getUrl({maxWidth: 150, maxHeight: 100});
+                shopDiv.appendChild(placeImage);
+            }else {
+                // Default image URL when no photo is available
+                shopImage.src = 'https://via.placeholder.com/200x150?text=No+Image'; // Placeholder image
+            }
+
+            // Place name with link to Google Maps
+            const mapsLink = document.createElement('a');
+            mapsLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name)}&query_place_id=${place.place_id}`;
+            mapsLink.target = '_blank';
+            mapsLink.textContent = place.name;
+            mapsLink.style.fontSize = '1.5em';
+            mapsLink.style.color = '#1a6f86';
+            mapsLink.style.textDecoration = 'none';
+            mapsLink.style.marginBottom = '5px';
+            mapsLink.style.display = 'block';
+            shopDiv.appendChild(mapsLink);
+
+            // Place rating
+            const ratingDiv = document.createElement('div');
+            ratingDiv.classList.add('shop-rating');
+
+            const rating = Math.round(place.rating); // Round rating to nearest whole number
+
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('i');
+                star.classList.add('star');
+                star.classList.add('fa');
+                star.classList.add(i <= rating ? 'fa-star' : 'fa-star-o');
+                ratingDiv.appendChild(star);
+            }
+
+            shopDiv.appendChild(ratingDiv);
+            resultsContainer.appendChild(shopDiv);
+        }
+    });
+}
+
+
+// Load default places when the page loads
+window.onload = function() {
+    getNearbyPlaces(); // Call this function to load the default places
+}
+</script>
+
+</body>
+</html>

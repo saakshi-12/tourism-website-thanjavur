@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Restaurants with Filters</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh0njEqr8kKXrqCmO90m2ejTWg9ldZIIY&libraries=places"></script>
+    <link rel="stylesheet" href="your-existing-styles.css"> <!-- Link to your existing stylesheet -->
+    <style>
+        /* Your existing styles here */
+        /* Add styles for the filter section if not already present */
+        .filter-section {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ababab;
+            border-radius: 10px;
+            background-color: #f5f5f5; /* Lighten the background color for a softer look */
+            width: 320px;
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+            transition: transform 0.3s ease-in-out; /* Smooth transition for hover effects */
+        }
+
+        .filter-section:hover {
+            transform: translateY(-5px); /* Slight lift effect on hover */
+        }
+
+        .filter-section h2 {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.6em;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .filter-section label {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            color: #555;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .filter-section input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .filter-section button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-section button:hover {
+            background-color: #0056b3;
+        }
+
+        .results {
+            margin-left: 400px; /* Adjust based on sidebar width */
+            padding: 20px;
+        }
+
+        .shop {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .shop h3 {
+            margin: 0;
+        }
+
+        .shop {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+          .shop:hover {
+              transform: scale(1.02);
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+              background-color: #c8dcf2;
+          }
+
+          .shop-name {
+              font-size: 1.5em;
+              font-weight: bold;
+              color: #1a6f86;
+              text-decoration: none;
+              display: block;
+              margin-bottom: 10px;
+          }
+
+          .shop-name:hover {
+              text-decoration: none;
+          }
+
+          .shop p {
+              margin: 5px 0;
+              font-size: 1.1em;
+              color: #373737;
+          }
+    </style>
+</head>
+<body>
+
+<!-- Existing Header or Navbar -->
+<div class="filter-section">
+    <h2>Filter Nearby Restaurants</h2>
+    <label for="radius">Distance (km): <span id="radius-value">5</span></label>
+    <input type="range" id="radius" min="1" max="50" value="5" step="1" oninput="updateRadiusValue(this.value)">
+    <br/>
+    <label for="rating">Minimum Rating: <span id="rating-value">3</span></label>
+    <input type="range" id="rating" min="1" max="5" value="3" step="0.5" oninput="updateRatingValue(this.value)">
+    <br/>
+    <label for="price">Price : <span id="price-value">₹500 -</span></label>
+    <input type="range" id="price" min="500" max="10600" value="500" step="100" oninput="updatePriceValue(this.value)">
+    <br/>
+    <button onclick="getNearbyPlaces()">Go</button>
+</div>
+
+<div class="results" id="results">
+    <!-- Your existing content structure for displaying places -->
+</div>
+
+<script>
+// Update filter values display
+function updateRadiusValue(value) {
+    document.getElementById('radius-value').textContent = value;
+}
+
+function updateRatingValue(value) {
+    document.getElementById('rating-value').textContent = value;
+}
+
+function updatePriceValue(value) {
+    document.getElementById('price-value').textContent = `₹140 - ₹${value}`;
+}
+
+// Function to get nearby places using Google Places API
+function getNearbyPlaces() {
+    const radius = document.getElementById('radius').value * 1000; // Convert to meters
+    const minRating = document.getElementById('rating').value;
+    const maxPrice = document.getElementById('price').value; // Use this if you want to filter by minimum price level
+
+    const location = new google.maps.LatLng(10.7823, 79.1310); // Big Temple (Brihadeeswarar Temple) in Thanjavur
+    const request = {
+        location: location,
+        radius: radius,
+        type: ['restaurant'], // Type of place is now 'restaurant'
+        maxPriceLevel: maxPrice,
+        keyword: 'restaurant' // Search for 'restaurant'
+    };
+
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+
+    service.nearbySearch(request, function (results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            displayResults(results, minRating);
+        }
+    });
+}
+
+// Display the results on the page
+function displayResults(places, minRating) {
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = ''; // Clear previous results
+
+    places.forEach(place => {
+        if (place.rating >= minRating) {
+            const shopDiv = document.createElement('div');
+            shopDiv.classList.add('shop');
+
+            // Wrap the place name in a link to Google Maps
+            const shopName = document.createElement('a');
+            shopName.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name)}&query_place_id=${place.place_id}`;
+            shopName.target = '_blank';
+            shopName.textContent = place.name;
+            shopName.classList.add('shop-name');
+            shopDiv.appendChild(shopName);
+
+            const shopRating = document.createElement('p');
+            shopRating.textContent = `Rating: ${place.rating}`;
+            shopDiv.appendChild(shopRating);
+
+            const shopPrice = document.createElement('p');
+            shopPrice.textContent = `Price Level: ${place.price_level !== undefined ? place.price_level : 'N/A'}`;
+            shopDiv.appendChild(shopPrice);
+
+            resultsContainer.appendChild(shopDiv);
+        }
+    });
+}
+
+// Load default places when the page loads
+window.onload = function() {
+    getNearbyPlaces(); // Call this function to load the default places
+}
+</script>
+
+</body>
+</html>
