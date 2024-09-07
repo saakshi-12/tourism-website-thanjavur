@@ -272,7 +272,7 @@
                 // Add the place photo
                 const shopImage = document.createElement('img');
                 if (place.photos && place.photos[0]) {
-                    const photoUrl = place.photos[0].getUrl({ maxWidth: 150, maxHeight:100 }); // Adjust the maxWidth as needed
+                    const photoUrl = place.photos[0].getUrl({ maxWidth: 150, maxHeight: 100 }); // Adjust the maxWidth as needed
                     shopImage.src = photoUrl;
                 } else {
                     // Default image URL when no photo is available
@@ -304,7 +304,13 @@
             }
         });
     }
+
+    // Automatically display nearby places when the page loads
+    window.onload = function () {
+        getNearbyPlaces(); // Call the function to fetch and display results
+    };
 </script>
+
 
 </body>
 </html>
