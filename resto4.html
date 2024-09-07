@@ -85,8 +85,9 @@
         .shop img {
             border-radius: 8px;
             width: 150px;
-            height: 100px;
-            object-fit: cover;
+            height: auto; /* Maintain aspect ratio */
+            max-height: 100px; /* Limit the maximum height */
+            object-fit: cover; /* Ensure the image fills the area properly without distortion */
             margin-right: 15px;
         }
     
