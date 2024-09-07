@@ -6,6 +6,8 @@
     <title>Nearby Restaurants with Filters</title>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh0njEqr8kKXrqCmO90m2ejTWg9ldZIIY&libraries=places"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
         /* Filter section */
         .filter-section {
@@ -120,12 +122,10 @@
         }
 
         /* Specific styling for the Font Awesome stars */
-        .far fa-star i {
+        .rating i {
             color: #f39c12; /* Golden/yellow color for the stars */
         }
-        .fas fa-star-half-alt i {
-            color: #f39c12; /* Golden/yellow color for the stars */
-        }
+
     
         /* Media queries for responsiveness */
         @media screen and (max-width: 1024px) {
@@ -298,7 +298,7 @@ function generateStars(rating) {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5;
     const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-    let starsHtml = '<span> ';
+    let starsHtml = '<span class="rating">';
 
     // Add full stars
     for (let i = 0; i < fullStars; i++) {
@@ -320,6 +320,7 @@ function generateStars(rating) {
 
     return starsHtml;
 }
+
     window.onload = function () {
         getNearbyPlaces(); // Call the function to fetch and display results
     };
