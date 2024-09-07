@@ -292,7 +292,7 @@
                 shopContentDiv.classList.add('shop-content');
 
                 const shopNameLink = document.createElement('a');
-                shopNameLink.href = place.url; // Assuming `url` contains the restaurant's website or details link
+                shopNameLink.href =  `https://www.google.com/maps/place/?q=place_id:${place.place_id}`;; // Assuming `url` contains the restaurant's website or details link
                 shopNameLink.target = "_blank"; // Open link in a new tab
                 shopNameLink.classList.add('shop-name');
                 shopNameLink.textContent = place.name;
