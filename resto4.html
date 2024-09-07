@@ -65,7 +65,7 @@
 
         .results {
             margin-left: 400px; /* Adjust based on sidebar width */
-            padding: 20px;
+            padding: 10px;
         }
 
         .shop {
@@ -82,7 +82,7 @@
 
         .shop:hover {
             transform: scale(1.02);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(48, 47, 47, 0.2);
             background-color: #c8dcf2;
         }
 
@@ -113,13 +113,13 @@
 
         .shop p {
             margin: 5px 0;
-            font-size: 1.5em;
+            font-size: 1.2em;
             color: #373737;
         }
 
         .rating {
-            padding: 20px;
-            font-size: 1.5em;
+            padding: 0px;
+            font-size: 1.2em;
             color: #f39c12;
         }
 
@@ -127,26 +127,31 @@
         @media screen and (max-width: 1024px) {
             .filter-section {
                 position: relative;
-                width: 100%;
-                margin-bottom: 20px;
-                left: 0;
-                top: 0;
+                width: 90%;
+                margin: 20px auto;
             }
 
             .results {
-                margin-left: 0;
+                margin-left: 24px;
+                width: 90%;
                 padding: 10px;
             }
         }
 
         @media screen and (max-width: 768px) {
             .filter-section {
-                width: 100%;
-                margin-bottom: 20px;
+                width: 90%;
+                margin: 20px 0;
+            }
+
+            .results {
+                margin-left: 24px;
+                width: 90%;
+                padding: 10px;
             }
 
             .shop img {
-                width: 100px;
+                width: 90%;
                 height: 70px;
             }
 
@@ -161,15 +166,20 @@
 
         @media screen and (max-width: 480px) {
             .filter-section {
-                padding: 15px;
+                padding: 5px;
+                width: 90%;
+                box-sizing: border-box;
             }
 
             .shop {
+                
                 flex-direction: column;
                 text-align: center;
             }
 
             .shop img {
+                width: 90%;
+                height: 70px;
                 margin-bottom: 10px;
             }
 
@@ -178,6 +188,12 @@
                 padding: 10px;
             }
 
+            .results {
+                margin-left: 24px;
+                width: 90%;
+                padding: 10px;
+            }
+            
             .shop-name {
                 font-size: 1.1em;
             }
@@ -192,10 +208,6 @@
 
             .filter-section button {
                 font-size: 1em;
-            }
-
-            .results {
-                margin-left: 0;
             }
         }
     </style>
