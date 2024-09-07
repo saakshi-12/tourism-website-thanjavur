@@ -279,7 +279,9 @@ function displayResults(places, minRating) {
             const shopDiv = document.createElement('div');
             shopDiv.className = 'shop';
             const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
-            const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name)}`;
+            // Include place name and address in the search query
+            const query = `${place.name} ${place.vicinity}`;
+            const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
             shopDiv.innerHTML = `
                 <img src="${image}" alt="${place.name}">
                 <div class="shop-content">
