@@ -270,28 +270,28 @@
         });
     }
 
-    function displayResults(places, minRating) {
-        const resultsContainer = document.getElementById('results');
-        resultsContainer.innerHTML = ''; // Clear previous results
+function displayResults(places, minRating) {
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = ''; // Clear previous results
 
-        places.forEach(place => {
-            if (place.rating >= minRating) {
-                const shopDiv = document.createElement('div');
-                shopDiv.className = 'shop';
-                const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
-                const link = `https://www.google.com/maps/place/?q=place_id:${place.place_id}`;
-                shopDiv.innerHTML = `
-                    <img src="${image}" alt="${place.name}">
-                    <div class="shop-content">
-                        <a href="${link}" class="shop-name" target="_blank">${place.name}</a>
-                        <p>Address: ${place.vicinity}</p>
-                        <p>Rating: <span class="rating">${place.rating} <i class="fas fa-star"></i></span></p>
-                    </div>
-                `;
-                resultsContainer.appendChild(shopDiv);
-            }
-        });
-    }
+    places.forEach(place => {
+        if (place.rating >= minRating) {
+            const shopDiv = document.createElement('div');
+            shopDiv.className = 'shop';
+            const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
+            const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name)}`;
+            shopDiv.innerHTML = `
+                <img src="${image}" alt="${place.name}">
+                <div class="shop-content">
+                    <a href="${link}" class="shop-name" target="_blank">${place.name}</a>
+                    <p>Address: ${place.vicinity}</p>
+                    <p>Rating: <span class="rating">${place.rating} <i class="fas fa-star"></i></span></p>
+                </div>
+            `;
+            resultsContainer.appendChild(shopDiv);
+        }
+    });
+}
 
 
     // Function to generate star icons based on rating
