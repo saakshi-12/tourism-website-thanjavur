@@ -116,8 +116,7 @@
     
         .rating {
             font-size: 1.5em;
-            font-weight: bold; /* Make the text bold */
-            color: #f39c12; /* Golden/yellow color for text and stars */
+            color: #f39c12; /* Golden/yellow color for stars */
         }
 
         /* Specific styling for the Font Awesome stars */
@@ -209,8 +208,6 @@
             }
         }
     </style>
-    
-    
 </head>
 <body>
 
@@ -270,58 +267,52 @@
         });
     }
 
-function displayResults(places, minRating) {
-    const resultsContainer = document.getElementById('results');
-    resultsContainer.innerHTML = ''; // Clear previous results
+    function displayResults(places, minRating) {
+        const resultsContainer = document.getElementById('results');
+        resultsContainer.innerHTML = ''; // Clear previous results
 
-    places.forEach(place => {
-        if (place.rating >= minRating) {
-            const shopDiv = document.createElement('div');
-            shopDiv.className = 'shop';
-            const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
-            // Include place name and address in the search query
-            const query = `${place.name} ${place.vicinity}`;
-            const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-            shopDiv.innerHTML = `
-                <img src="${image}" alt="${place.name}">
-                <div class="shop-content">
-                    <a href="${link}" class="shop-name" target="_blank">${place.name}</a>
-                    <p>Address: ${place.vicinity}</p>
-                    <p>Rating: <span class="rating">${place.rating} <i class="fas fa-star"></i></span></p>
-                </div>
-            `;
-            resultsContainer.appendChild(shopDiv);
-        }
-    });
-}
+        places.forEach(place => {
+            if (place.rating >= minRating) {
+                const shopDiv = document.createElement('div');
+                shopDiv.className = 'shop';
+                const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
+                // Include place name and address in the search query
+                const query = `${place.name} ${place.vicinity}`;
+                const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+                shopDiv.innerHTML = `
+                    <img src="${image}" alt="${place.name}">
+                    <div class="shop-content">
+                        <a href="${link}" class="shop-name" target="_blank">${place.name}</a>
+                        <p>Address: ${place.vicinity}</p>
+                        <p>Rating: ${generateStars(place.rating)}</p>
+                    </div>
+                `;
+                resultsContainer.appendChild(shopDiv);
+            }
+        });
+    }
 
-
-    // Function to generate star icons based on rating
+    // Generate stars for rating
     function generateStars(rating) {
-        let stars = '';
         const fullStars = Math.floor(rating);
-        const halfStar = rating % 1 >= 0.5;
+        const halfStar = rating % 1 !== 0;
         const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+        let starsHtml = '';
 
         for (let i = 0; i < fullStars; i++) {
-            stars += '<i class="fas fa-star"></i>';
+            starsHtml += '<i class="fas fa-star"></i>';
         }
 
         if (halfStar) {
-            stars += '<i class="fas fa-star-half-alt"></i>';
+            starsHtml += '<i class="fas fa-star-half-alt"></i>';
         }
 
         for (let i = 0; i < emptyStars; i++) {
-            stars += '<i class="far fa-star"></i>';
+            starsHtml += '<i class="far fa-star"></i>';
         }
 
-        stars += ` ${rating}`; // Display the numeric rating next to the stars
-        return stars;
+        return starsHtml;
     }
-    
-    window.onload = function () {
-        getNearbyPlaces(); // Call the function to fetch and display results
-    };
 </script>
 
 </body>
