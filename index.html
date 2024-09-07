@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tourist Information</title>
-    <!-- Link to Bootstrap CSS for styling -->
+    <!-- Link to Bootstrap CSS for styling (optional but recommended) -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -14,8 +14,8 @@
 
         .welcome-message {
             text-align: center;
-            margin: 20px 0;
-            padding: 30px 15px;
+            margin-top: 10px;
+            padding: 30px;
             background: linear-gradient(135deg, #3c1ad0, #5598d8);
             color: #f0f0f0;
             border-radius: 20px;
@@ -25,7 +25,7 @@
         }
 
         .welcome-message h1 {
-            font-size: 2.5rem;
+            font-size: 2.8em;
             font-weight: 700;
             margin-bottom: 10px;
             color: #ffffff;
@@ -33,7 +33,7 @@
         }
 
         .welcome-message p {
-            font-size: 1.2rem;
+            font-size: 1.3em;
             margin-bottom: 0;
             color: #d0d0d0;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
@@ -51,21 +51,20 @@
         .navbar {
             background: linear-gradient(135deg, #93d01a, #5598d8);
             margin-top: 8px;
-            border-radius: 10px;
+            border-radius: 10px 10px 10px 10px;
         }
 
         .navbar-brand {
             font-family: 'Georgia', serif;
-            font-size: 1.5rem;
-            color: #f0f0f0 !important;
+            font-size: 1.65em;
+            color: #f0f0f0;
         }
 
         .navbar-nav .nav-link {
             color: #f0f0f0 !important;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 1.07em;
             font-family: Arial, Helvetica, sans-serif;
-            margin-right: 10px;
         }
 
         .navbar-nav .nav-link:hover {
@@ -76,8 +75,8 @@
 
         .text-section {
             margin: 50px auto;
-            padding: 30px 15px;
             background: linear-gradient(135deg, #e3eaf6, #c1d5f1);
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
             font-family: 'Georgia', serif;
@@ -86,7 +85,7 @@
 
         .text-section p {
             margin-bottom: 20px;
-            font-size: 1.1rem;
+            font-size: 1.1em;
             line-height: 1.8;
             color: #262525;
             text-align: justify;
@@ -94,67 +93,27 @@
         }
 
         .text-section p:first-letter {
-            font-size: 1.35rem;
+            font-size: 1.35em;
             font-weight: bold;
             color: #03651d;
         }
 
-        /* Responsive Adjustments */
+        /* Media queries for responsiveness */
         @media (max-width: 768px) {
             .welcome-message h1 {
-                font-size: 2rem;
+                font-size: 2em;
             }
 
             .welcome-message p {
-                font-size: 1rem;
-            }
-
-            .navbar-brand {
-                font-size: 1.3rem;
-            }
-
-            .navbar-nav .nav-link {
-                font-size: 0.9rem;
-                margin-right: 0;
-                margin-top: 10px;
+                font-size: 1.1em;
             }
 
             .text-section {
-                padding: 20px 10px;
+                padding: 20px;
             }
 
             .text-section p {
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .welcome-message {
-                padding: 20px 10px;
-            }
-
-            .welcome-message h1 {
-                font-size: 1.8rem;
-            }
-
-            .welcome-message p {
-                font-size: 0.95rem;
-            }
-
-            .navbar-brand {
-                font-size: 1.2rem;
-            }
-
-            .navbar-nav .nav-link {
-                font-size: 0.85rem;
-            }
-
-            .text-section {
-                padding: 15px 5px;
-            }
-
-            .text-section p {
-                font-size: 0.95rem;
+                font-size: 1em;
             }
         }
     </style>
@@ -163,67 +122,59 @@
 
   <!-- Welcome Message -->
   <div class="container">
-      <div class="welcome-message">
-          <h1>Welcome to Thanjavur Big Temple</h1>
-          <p>Explore the history, culture, and local attractions nearby!</p>
-      </div>
+    <div class="welcome-message">
+        <h1>Welcome to Thanjavur Big Temple</h1>
+        <p>Explore the history, culture, and local attractions nearby!</p>
+    </div>
   </div>
 
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">Tourist Guide</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto flex-column flex-lg-row">
-                <li class="nav-item">
-                    <a class="nav-link" href="./resto4.html">Nearby Restaurants</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./crafts2.html">Nearby Handicraft Shops</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./other_places3.html">Other Places to Visit</a>
-                </li>
-            </ul>
-        </div>
+    <a class="navbar-brand" href="#">Tourist Guide</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="./resto4.html">Nearby Restaurants</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./crafts2.html">Nearby Handicraft Shops</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./other_places3.html">Other Places to Visit</a>
+            </li>
+        </ul>
     </div>
-</nav>
+  </nav>
 
   <!-- Historical Image -->
   <div class="container">
-      <img src="./unnamed.jpg" alt="Thanjavur Big Temple" class="historical-image img-fluid">
+    <img src="./unnamed.jpg" alt="Thanjavur Big Temple" class="historical-image img-fluid">
   </div>
 
   <!-- Text Section -->
   <div class="container">
-      <section class="text-section">
-          <p>
-              Brihadishvara Temple, called Rajarajesvaram by its builder, and known locally as Thanjai Periya Kovil and Peruvudaiyar Kovil, is a Shaivite Hindu temple built in a Chola architectural style located on the south bank of the Cauvery river in Thanjavur, Tamil Nadu, India.
-          </p>
-          <p>
-              Built by emperor Raja Raja Chola I and completed in 1010 AD, the temple turned 1000 years old in 2010. The temple is part of the UNESCO World Heritage Site known as the “Great Living Chola Temples”, with the other two being the Brihadeeswarar Temple, Gangaikonda Cholapuram and Airavatesvara temple.
-          </p>
-          <p>
-              The temple stands amidst fortified walls that were probably added in the 16th century. The vimanam (temple tower) is 216 ft (66 m) high and is the tallest in the world. The Kumbam (the apex or the bulbous structure on the top) of the temple is carved out of a single rock and weighs around 80 tons.
-          </p>
-          <p>
-            There is a big statue of Nandi (sacred bull), carved out of a single rock measuring about 16 ft (4.9 m) long and 13 ft (4.0 m) high at the entrance. The entire temple structure is made out of granite, the nearest sources of which are about 60 km to the west of temple. The temple is one of the most visited tourist attractions in Tamil Nadu.
-          </p>
-      </section>
+    <section class="text-section">
+        <p>
+            Brihadishvara Temple, called Rajarajesvaram by its builder, and known locally as Thanjai Periya Kovil and Peruvudaiyar Kovil, is a Shaivite Hindu temple built in a Chola architectural style located on the south bank of the Cauvery river in Thanjavur, Tamil Nadu, India.
+        </p>
+        <p>
+            Built by emperor Raja Raja Chola I and completed in 1010 AD, the temple turned 1000 years old in 2010. The temple is part of the UNESCO World Heritage Site known as the “Great Living Chola Temples.”
+        </p>
+        <p>
+            The vimanam (temple tower) is 216 ft (66 m) high and is the tallest in the world. The Kumbam (the apex or the bulbous structure on the top) of the temple is carved out of a single rock and weighs around 80 tons.
+        </p>
+        <p>
+            There is a big statue of Nandi (sacred bull), carved out of a single rock measuring about 16 ft (4.9 m) long and 13 ft (4.0 m) high at the entrance. The entire temple structure is made out of granite, the nearest sources of which are about 60 km to the west of temple.
+        </p>
+    </section>
   </div>
 
   <!-- Scripts for Bootstrap functionality -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" 
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" 
-      integrity="sha384-9/reFTGAW83EW2RDuL0E+N1kKKs0JRz+"
-      crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" 
-      integrity="sha384-B0UglyR+LyQ+1+XnuCwa0JpG4N0j7QgA5F4C4KC9FK+Q1jzlzl" 
-      crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
