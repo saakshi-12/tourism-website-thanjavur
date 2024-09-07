@@ -7,7 +7,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh0njEqr8kKXrqCmO90m2ejTWg9ldZIIY&libraries=places"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
     <style>
-        /* Existing styles */
+        /* Filter section */
         .filter-section {
             margin: 20px;
             padding: 20px;
@@ -15,15 +15,10 @@
             border-radius: 10px;
             background-color: #ddfbf5;
             width: 320px;
-            position: fixed;
-            left: 10px;
-            top: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .filter-section:hover {
-            transform: translateY(-5px);
+            position: relative;
+            float: left;
+            top: 0;
         }
 
         .filter-section h2 {
@@ -63,9 +58,10 @@
             background-color: #0056b3;
         }
 
+        /* Results section */
         .results {
-            margin-left: 400px; /* Adjust based on sidebar width */
-            padding: 10px;
+            margin-left: 350px; /* Adjust based on filter sidebar width */
+            padding: 20px;
         }
 
         .shop {
@@ -82,7 +78,7 @@
 
         .shop:hover {
             transform: scale(1.02);
-            box-shadow: 0 4px 8px rgba(48, 47, 47, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             background-color: #c8dcf2;
         }
 
@@ -113,46 +109,46 @@
 
         .shop p {
             margin: 5px 0;
-            font-size: 1.2em;
+            font-size: 1em;
             color: #373737;
         }
 
         .rating {
             padding: 0px;
-            font-size: 1.2em;
+            font-size: 1.5em;
             color: #f39c12;
         }
 
-        /* Responsive styles */
+        /* Media queries for responsiveness */
         @media screen and (max-width: 1024px) {
             .filter-section {
+                width: 100%;
+                margin-left: 0;
+                float: none;
                 position: relative;
-                width: 90%;
-                margin: 20px auto;
             }
 
             .results {
-                margin-left: 24px;
-                width: 90%;
+                margin-left: 0;
                 padding: 10px;
             }
         }
 
         @media screen and (max-width: 768px) {
             .filter-section {
-                width: 90%;
-                margin: 20px 0;
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 20px;
             }
 
             .results {
-                margin-left: 24px;
-                width: 90%;
+                margin-left: 0;
                 padding: 10px;
             }
 
             .shop img {
-                width: 90%;
-                height: 70px;
+                width: 120px;
+                height: 90px;
             }
 
             .shop-name {
@@ -166,34 +162,24 @@
 
         @media screen and (max-width: 480px) {
             .filter-section {
+                width: 100%;
                 padding: 5px;
-                width: 90%;
-                box-sizing: border-box;
+                margin-bottom: 15px;
             }
 
             .shop {
-                
                 flex-direction: column;
                 text-align: center;
             }
 
             .shop img {
-                width: 90%;
-                height: 70px;
                 margin-bottom: 10px;
             }
 
             .rating {
                 font-size: 1.2em;
-                padding: 10px;
             }
 
-            .results {
-                margin-left: 24px;
-                width: 90%;
-                padding: 10px;
-            }
-            
             .shop-name {
                 font-size: 1.1em;
             }
@@ -209,12 +195,15 @@
             .filter-section button {
                 font-size: 1em;
             }
+
+            .results {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
 
-<!-- Existing Header or Navbar -->
 <div class="filter-section">
     <h2>Filter Nearby Restaurants</h2>
     <label for="radius">Distance (km): <span id="radius-value">5</span></label>
@@ -230,92 +219,91 @@
 </div>
 
 <div class="results" id="results">
-    <!-- Your existing content structure for displaying places -->
+    <!-- Content structure for displaying places -->
 </div>
 
 <script>
-// Update filter values display
-function updateRadiusValue(value) {
-    document.getElementById('radius-value').textContent = value;
-}
+    // Update filter values display
+    function updateRadiusValue(value) {
+        document.getElementById('radius-value').textContent = value;
+    }
 
-function updateRatingValue(value) {
-    document.getElementById('rating-value').textContent = value;
-}
+    function updateRatingValue(value) {
+        document.getElementById('rating-value').textContent = value;
+    }
 
-function updatePriceValue(value) {
-    document.getElementById('price-value').textContent = `₹145 - ₹${value}`;
-}
+    function updatePriceValue(value) {
+        document.getElementById('price-value').textContent = `₹145 - ₹${value}`;
+    }
 
-// Function to get nearby places using Google Places API
-function getNearbyPlaces() {
-    const radius = document.getElementById('radius').value * 1000; // Convert to meters
-    const minRating = document.getElementById('rating').value;
-    const maxPrice = document.getElementById('price').value; // Use this if you want to filter by minimum price level
+    // Function to get nearby places using Google Places API
+    function getNearbyPlaces() {
+        const radius = document.getElementById('radius').value * 1000; // Convert to meters
+        const minRating = document.getElementById('rating').value;
+        const maxPrice = document.getElementById('price').value; // Use this if you want to filter by minimum price level
 
-    const location = new google.maps.LatLng(10.7823, 79.1310); // Big Temple (Brihadeeswarar Temple) in Thanjavur
-    const request = {
-        location: location,
-        radius: radius,
-        type: ['restaurant'], // Type of place is now 'restaurant'
-        maxPriceLevel: maxPrice,
-        keyword: 'restaurant' // Search for 'restaurant'
-    };
+        const location = new google.maps.LatLng(10.7823, 79.1310); // Big Temple (Brihadeeswarar Temple) in Thanjavur
+        const request = {
+            location: location,
+            radius: radius,
+            type: ['restaurant'], // Type of place is now 'restaurant'
+            maxPriceLevel: maxPrice,
+            keyword: 'restaurant' // Search for 'restaurant'
+        };
 
-    const service = new google.maps.places.PlacesService(document.createElement('div'));
+        const service = new google.maps.places.PlacesService(document.createElement('div'));
 
-    service.nearbySearch(request, function (results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-            displayResults(results, minRating);
-        }
-    });
-}
-
-function displayResults(places, minRating) {
-    const resultsContainer = document.getElementById('results');
-    resultsContainer.innerHTML = ''; // Clear previous results
-
-    places.forEach(place => {
-        if (place.rating >= minRating) {
-            const shopDiv = document.createElement('div');
-            shopDiv.classList.add('shop');
-
-            // Add the place photo
-            const shopImage = document.createElement('img');
-            if (place.photos && place.photos[0]) {
-                const photoUrl = place.photos[0].getUrl({ maxWidth: 150, maxHeight:100 }); // Adjust the maxWidth as needed
-                shopImage.src = photoUrl;
-            } else {
-                // Default image URL when no photo is available
-                shopImage.src = 'https://via.placeholder.com/200x150?text=No+Image'; // Placeholder image
+        service.nearbySearch(request, function (results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                displayResults(results, minRating);
             }
-            shopDiv.appendChild(shopImage);
+        });
+    }
 
-            const shopContent = document.createElement('div');
-            shopContent.classList.add('shop-content');
+    function displayResults(places, minRating) {
+        const resultsContainer = document.getElementById('results');
+        resultsContainer.innerHTML = ''; // Clear previous results
 
-            const shopName = document.createElement('a');
-            shopName.classList.add('shop-name');
-            shopName.href = `https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.place_id}`;
-            shopName.target = '_blank'; // Open link in new tab
-            shopName.textContent = place.name;
-            shopContent.appendChild(shopName);
+        places.forEach(place => {
+            if (place.rating >= minRating) {
+                const shopDiv = document.createElement('div');
+                shopDiv.classList.add('shop');
 
-            // Add rating and address
-            const shopAddress = document.createElement('p');
-            shopAddress.textContent = place.vicinity; // The place's vicinity (address)
-            shopContent.appendChild(shopAddress);
+                // Add the place photo
+                const shopImage = document.createElement('img');
+                if (place.photos && place.photos[0]) {
+                    const photoUrl = place.photos[0].getUrl({ maxWidth: 150, maxHeight:100 }); // Adjust the maxWidth as needed
+                    shopImage.src = photoUrl;
+                } else {
+                    // Default image URL when no photo is available
+                    shopImage.src = 'https://via.placeholder.com/200x150?text=No+Image'; // Placeholder image
+                }
+                shopDiv.appendChild(shopImage);
 
-            const shopRating = document.createElement('div');
-            shopRating.classList.add('rating');
-            shopRating.innerHTML = `Rating: <i class="fas fa-star"></i> ${place.rating}`;
-            shopContent.appendChild(shopRating);
+                const shopContent = document.createElement('div');
+                shopContent.classList.add('shop-content');
 
-            shopDiv.appendChild(shopContent);
-            resultsContainer.appendChild(shopDiv);
-        }
-    });
-}
+                const shopName = document.createElement('a');
+                shopName.classList.add('shop-name');
+                shopName.href = place.url || '#'; // Place URL if available
+                shopName.target = '_blank'; // Open link in a new tab
+                shopName.textContent = place.name;
+                shopContent.appendChild(shopName);
+
+                const shopAddress = document.createElement('p');
+                shopAddress.textContent = place.vicinity;
+                shopContent.appendChild(shopAddress);
+
+                const ratingElement = document.createElement('p');
+                ratingElement.classList.add('rating');
+                ratingElement.innerHTML = `Rating: ${place.rating} <i class="fas fa-star"></i>`;
+                shopContent.appendChild(ratingElement);
+
+                shopDiv.appendChild(shopContent);
+                resultsContainer.appendChild(shopDiv);
+            }
+        });
+    }
 </script>
 
 </body>
