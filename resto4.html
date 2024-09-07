@@ -291,28 +291,36 @@
             }
         });
     }
-
     // Generate stars for rating
-    function generateStars(rating) {
-        const fullStars = Math.floor(rating);
-        const halfStar = rating % 1 !== 0;
-        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-        let starsHtml = '';
+function generateStars(rating) {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+    let starsHtml = '<span>Rating: ';
 
-        for (let i = 0; i < fullStars; i++) {
-            starsHtml += '<i class="fas fa-star"></i>';
-        }
-
-        if (halfStar) {
-            starsHtml += '<i class="fas fa-star-half-alt"></i>';
-        }
-
-        for (let i = 0; i < emptyStars; i++) {
-            starsHtml += '<i class="far fa-star"></i>';
-        }
-
-        return starsHtml;
+    // Add full stars
+    for (let i = 0; i < fullStars; i++) {
+        starsHtml += '<i class="fas fa-star"></i>';
     }
+
+    // Add half star if necessary
+    if (halfStar) {
+        starsHtml += '<i class="fas fa-star-half-alt"></i>';
+    }
+
+    // Add empty stars
+    for (let i = 0; i < emptyStars; i++) {
+        starsHtml += '<i class="far fa-star"></i>';
+    }
+
+    // Close the span and append the rating value
+    starsHtml += ` ${rating}</span>`;
+
+    return starsHtml;
+}
+    window.onload = function () {
+        getNearbyPlaces(); // Call the function to fetch and display results
+    };
 </script>
 
 </body>
