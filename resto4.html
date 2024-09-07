@@ -20,7 +20,7 @@
             float: left;
             top: 0;
         }
-
+    
         .filter-section h2 {
             font-family: 'Arial', sans-serif;
             font-size: 1.6em;
@@ -28,7 +28,7 @@
             margin-bottom: 15px;
             text-align: center;
         }
-
+    
         .filter-section label {
             font-family: 'Arial', sans-serif;
             font-size: 1.1em;
@@ -36,12 +36,12 @@
             margin-top: 10px;
             display: block;
         }
-
+    
         .filter-section input[type="range"] {
             width: 100%;
             margin: 10px 0;
         }
-
+    
         .filter-section button {
             width: 100%;
             padding: 10px;
@@ -53,17 +53,17 @@
             font-size: 1.1em;
             transition: background-color 0.3s ease;
         }
-
+    
         .filter-section button:hover {
             background-color: #0056b3;
         }
-
+    
         /* Results section */
         .results {
             margin-left: 350px; /* Adjust based on filter sidebar width */
             padding: 20px;
         }
-
+    
         .shop {
             display: flex;
             align-items: center;
@@ -75,13 +75,13 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, box-shadow 0.2s;
         }
-
+    
         .shop:hover {
             transform: scale(1.02);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             background-color: #c8dcf2;
         }
-
+    
         .shop img {
             border-radius: 8px;
             width: 150px;
@@ -89,11 +89,11 @@
             object-fit: cover;
             margin-right: 15px;
         }
-
+    
         .shop-content {
             flex: 1;
         }
-
+    
         .shop-name {
             font-size: 1.5em;
             font-weight: bold;
@@ -102,23 +102,28 @@
             display: block;
             margin-bottom: 10px;
         }
-
+    
         .shop-name:hover {
             text-decoration: none;
         }
-
+    
         .shop p {
             margin: 5px 0;
             font-size: 1em;
             color: #373737;
         }
-
+    
         .rating {
-            padding: 0px;
             font-size: 1.5em;
-            color: #f39c12;
+            font-weight: bold; /* Make the text bold */
+            color: #f39c12; /* Golden/yellow color for text and stars */
         }
 
+        /* Specific styling for the Font Awesome stars */
+        .rating i {
+            color: #f39c12; /* Golden/yellow color for the stars */
+        }
+    
         /* Media queries for responsiveness */
         @media screen and (max-width: 1024px) {
             .filter-section {
@@ -127,80 +132,82 @@
                 float: none;
                 position: relative;
             }
-
+    
             .results {
                 margin-left: 0;
                 padding: 10px;
             }
         }
-
+    
         @media screen and (max-width: 768px) {
             .filter-section {
                 width: 100%;
                 padding: 10px;
                 margin-bottom: 20px;
             }
-
+    
             .results {
                 margin-left: 0;
                 padding: 10px;
             }
-
+    
             .shop img {
                 width: 120px;
                 height: 90px;
             }
-
+    
             .shop-name {
                 font-size: 1.2em;
             }
-
+    
             .filter-section h2 {
                 font-size: 1.4em;
             }
         }
-
+    
         @media screen and (max-width: 480px) {
             .filter-section {
                 width: 100%;
                 padding: 5px;
                 margin-bottom: 15px;
             }
-
+    
             .shop {
                 flex-direction: column;
                 text-align: center;
             }
-
+    
             .shop img {
                 margin-bottom: 10px;
             }
-
+    
             .rating {
                 font-size: 1.2em;
             }
-
+    
             .shop-name {
                 font-size: 1.1em;
             }
-
+    
             .filter-section h2 {
                 font-size: 1.2em;
             }
-
+    
             .filter-section label {
                 font-size: 1em;
             }
-
+    
             .filter-section button {
                 font-size: 1em;
             }
-
+    
             .results {
                 margin-left: 0;
             }
         }
     </style>
+    
+    
 </head>
 <body>
 
@@ -275,42 +282,60 @@
                     const photoUrl = place.photos[0].getUrl({ maxWidth: 150, maxHeight: 100 }); // Adjust the maxWidth as needed
                     shopImage.src = photoUrl;
                 } else {
-                    // Default image URL when no photo is available
-                    shopImage.src = 'https://via.placeholder.com/200x150?text=No+Image'; // Placeholder image
+                    shopImage.src = 'https://via.placeholder.com/150'; // Fallback image if no photo is available
                 }
+
+                const shopContentDiv = document.createElement('div');
+                shopContentDiv.classList.add('shop-content');
+
+                const shopNameLink = document.createElement('a');
+                shopNameLink.href = place.url; // Assuming `url` contains the restaurant's website or details link
+                shopNameLink.target = "_blank"; // Open link in a new tab
+                shopNameLink.classList.add('shop-name');
+                shopNameLink.textContent = place.name;
+
+                const shopRating = document.createElement('p');
+                shopRating.classList.add('rating');
+                shopRating.innerHTML = generateStars(place.rating); // Generate stars based on rating
+
+                shopContentDiv.appendChild(shopNameLink);
+                shopContentDiv.appendChild(shopRating);
+
                 shopDiv.appendChild(shopImage);
+                shopDiv.appendChild(shopContentDiv);
 
-                const shopContent = document.createElement('div');
-                shopContent.classList.add('shop-content');
-
-                const shopName = document.createElement('a');
-                shopName.classList.add('shop-name');
-                shopName.href = place.url || '#'; // Place URL if available
-                shopName.target = '_blank'; // Open link in a new tab
-                shopName.textContent = place.name;
-                shopContent.appendChild(shopName);
-
-                const shopAddress = document.createElement('p');
-                shopAddress.textContent = place.vicinity;
-                shopContent.appendChild(shopAddress);
-
-                const ratingElement = document.createElement('p');
-                ratingElement.classList.add('rating');
-                ratingElement.innerHTML = `Rating: ${place.rating} <i class="fas fa-star"></i>`;
-                shopContent.appendChild(ratingElement);
-
-                shopDiv.appendChild(shopContent);
                 resultsContainer.appendChild(shopDiv);
             }
         });
     }
 
-    // Automatically display nearby places when the page loads
+    // Function to generate star icons based on rating
+    function generateStars(rating) {
+        let stars = '';
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+        for (let i = 0; i < fullStars; i++) {
+            stars += '<i class="fas fa-star"></i>';
+        }
+
+        if (halfStar) {
+            stars += '<i class="fas fa-star-half-alt"></i>';
+        }
+
+        for (let i = 0; i < emptyStars; i++) {
+            stars += '<i class="far fa-star"></i>';
+        }
+
+        stars += ` ${rating}`; // Display the numeric rating next to the stars
+        return stars;
+    }
+    
     window.onload = function () {
         getNearbyPlaces(); // Call the function to fetch and display results
     };
 </script>
-
 
 </body>
 </html>
