@@ -270,47 +270,48 @@
         });
     }
 
-    function displayResults(places, minRating) {
-        const resultsContainer = document.getElementById('results');
-        resultsContainer.innerHTML = ''; // Clear previous results
+function displayResults(places, minRating) {
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = ''; // Clear previous results
 
-        places.forEach(place => {
-            if (place.rating >= minRating) {
-                const shopDiv = document.createElement('div');
-                shopDiv.classList.add('shop');
+    places.forEach(place => {
+        if (place.rating >= minRating) {
+            const shopDiv = document.createElement('div');
+            shopDiv.classList.add('shop');
 
-                // Add the place photo
-                const shopImage = document.createElement('img');
-                if (place.photos && place.photos[0]) {
-                    const photoUrl = place.photos[0].getUrl({ maxWidth: 150, maxHeight: 100 }); // Adjust the maxWidth as needed
-                    shopImage.src = photoUrl;
-                } else {
-                    shopImage.src = 'https://via.placeholder.com/150'; // Fallback image if no photo is available
-                }
-
-                const shopContentDiv = document.createElement('div');
-                shopContentDiv.classList.add('shop-content');
-
-                const shopNameLink = document.createElement('a');
-                shopNameLink.href =  `https://www.google.com/maps/place/?q=place_id:${place.place_id}`;; // Assuming `url` contains the restaurant's website or details link
-                shopNameLink.target = "_blank"; // Open link in a new tab
-                shopNameLink.classList.add('shop-name');
-                shopNameLink.textContent = place.name;
-
-                const shopRating = document.createElement('p');
-                shopRating.classList.add('rating');
-                shopRating.innerHTML = generateStars(place.rating); // Generate stars based on rating
-
-                shopContentDiv.appendChild(shopNameLink);
-                shopContentDiv.appendChild(shopRating);
-
-                shopDiv.appendChild(shopImage);
-                shopDiv.appendChild(shopContentDiv);
-
-                resultsContainer.appendChild(shopDiv);
+            // Add the place photo
+            const shopImage = document.createElement('img');
+            if (place.photos && place.photos[0]) {
+                const photoUrl = place.photos[0].getUrl({ maxWidth: 150, maxHeight: 100 }); // Adjust the maxWidth as needed
+                shopImage.src = photoUrl;
+            } else {
+                shopImage.src = 'https://via.placeholder.com/150'; // Fallback image if no photo is available
             }
-        });
-    }
+
+            const shopContentDiv = document.createElement('div');
+            shopContentDiv.classList.add('shop-content');
+
+            const shopNameLink = document.createElement('a');
+            shopNameLink.href = `https://www.google.com/maps/search/?api=1&query=place_id:${place.place_id}`; // Correct URL format for place_id
+            shopNameLink.target = "_blank"; // Open link in a new tab
+            shopNameLink.classList.add('shop-name');
+            shopNameLink.textContent = place.name;
+
+            const shopRating = document.createElement('p');
+            shopRating.classList.add('rating');
+            shopRating.innerHTML = generateStars(place.rating); // Generate stars based on rating
+
+            shopContentDiv.appendChild(shopNameLink);
+            shopContentDiv.appendChild(shopRating);
+
+            shopDiv.appendChild(shopImage);
+            shopDiv.appendChild(shopContentDiv);
+
+            resultsContainer.appendChild(shopDiv);
+        }
+    });
+}
+
 
     // Function to generate star icons based on rating
     function generateStars(rating) {
