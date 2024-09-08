@@ -228,6 +228,8 @@
 </div>
 
 <script>
+    let currentLocation;
+
     function updateRadiusValue(value) {
         document.getElementById('radius-value').textContent = value;
     }
@@ -238,12 +240,25 @@
 
     // Function to get nearby places using Google Places API
     function getNearbyPlaces() {
+        // Use the currentLocation to set the user's current position
+        if (!currentLocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                currentLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                fetchPlaces();
+            }, function (error) {
+                alert('Geolocation failed. Please try again.');
+            });
+        } else {
+            fetchPlaces();
+        }
+    }
+
+    function fetchPlaces() {
         const radius = document.getElementById('radius').value * 1000; // Convert to meters
         const minRating = document.getElementById('rating').value;
 
-        const location = new google.maps.LatLng(10.7823, 79.1310); // Example: Big Temple, Thanjavur
         const request = {
-            location: location,
+            location: currentLocation,
             radius: radius,
             type: ['store'], // 'store' for handicraft shops
             keyword: 'handicraft'
@@ -267,21 +282,28 @@
             if (place.rating >= minRating) {
                 const shopDiv = document.createElement('div');
                 shopDiv.className = 'shop';
+
+                // Calculate distance from the current location
+                const placeLocation = place.geometry.location;
+                const distance = google.maps.geometry.spherical.computeDistanceBetween(currentLocation, placeLocation);
+                const distanceKm = (distance / 1000).toFixed(2); // Convert to kilometers and round to 2 decimal places
+
                 const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : sampleImage;
                 const query = `${place.name} ${place.vicinity}`;
                 const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+
                 shopDiv.innerHTML = `
                     <img src="${image}" alt="${place.name}">
                     <div class="shop-content">
                         <a href="${link}" class="shop-name" target="_blank">${place.name}</a>
                         <p>${generateStars(place.rating)}</p>
+                        <p>Distance: ${distanceKm} km</p>
                     </div>
                 `;
                 resultsContainer.appendChild(shopDiv);
             }
         });
     }
-
 
     function generateStars(rating) {
         const fullStars = Math.floor(rating);
@@ -301,12 +323,14 @@
             starsHtml += '<i class="far fa-star"></i>';
         }
 
-        starsHtml += ` ${rating}</span>`;;
+        starsHtml += ` ${rating}</span>`;
         return starsHtml;
     }
+
     window.onload = function () {
         getNearbyPlaces(); // Call the function to fetch and display results
     };
 </script>
+    
 </body>
 </html>
