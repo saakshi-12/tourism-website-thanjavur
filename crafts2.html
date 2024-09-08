@@ -13,7 +13,7 @@
             padding: 20px;
             border: 1px solid #ababab;
             border-radius: 10px;
-            background-color: #add0f6;
+            background-color: #ddfbf5;
             width: 320px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             position: relative;
@@ -84,9 +84,10 @@
     
         .shop img {
             border-radius: 8px;
-            width: 150px;
-            height: 100px;
-            object-fit: cover;
+            width: 90%;
+            height: auto; /* Maintain aspect ratio */
+            max-height: 200px; /* Limit the maximum height */
+            object-fit: cover; /* Ensure the image fills the area properly without distortion */
             margin-right: 15px;
         }
     
@@ -115,13 +116,14 @@
     
         .rating {
             font-size: 1.5em;
-            font-weight: bold; /* Make the text bold */
+            color: #f39c12; /* Golden/yellow color for stars */
         }
 
         /* Specific styling for the Font Awesome stars */
         .rating i {
             color: #f39c12; /* Golden/yellow color for the stars */
         }
+
     
         /* Media queries for responsiveness */
         @media screen and (max-width: 1024px) {
@@ -178,6 +180,8 @@
     
             .shop img {
                 margin-bottom: 10px;
+                width:90%;
+                height: 150px;
             }
     
             .rating {
@@ -191,7 +195,7 @@
             .filter-section h2 {
                 font-size: 1.2em;
             }
-    
+
             .filter-section label {
                 font-size: 1em;
             }
