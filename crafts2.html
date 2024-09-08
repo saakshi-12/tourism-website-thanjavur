@@ -260,12 +260,14 @@
     function displayResults(places, minRating) {
         const resultsContainer = document.getElementById('results');
         resultsContainer.innerHTML = ''; // Clear previous results
-
+    
+        const sampleImage = 'https://your-sample-image-url.com/sample-image.jpg'; // Replace with your sample image URL
+    
         places.forEach(place => {
             if (place.rating >= minRating) {
                 const shopDiv = document.createElement('div');
                 shopDiv.className = 'shop';
-                const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
+                const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : sampleImage;
                 const query = `${place.name} ${place.vicinity}`;
                 const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
                 shopDiv.innerHTML = `
@@ -279,6 +281,7 @@
             }
         });
     }
+
 
     function generateStars(rating) {
         const fullStars = Math.floor(rating);
