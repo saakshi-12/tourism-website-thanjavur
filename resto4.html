@@ -181,9 +181,9 @@
             }
     
             .shop img {
-                margin-bottom: 20px;
+                margin-bottom: 10px;
                 width:90%;
-                height: 180px;
+                height: 150px;
             }
     
             .rating {
@@ -297,7 +297,7 @@
                     const placeDiv = document.createElement('div');
                     placeDiv.classList.add('shop');
 
-                    const img = place.photos ? place.photos[0].getUrl({ maxWidth: 300, maxHeight: 220 }) : 'default-image-url.jpg'; // Placeholder image if no photo available
+                    const img = place.photos ? place.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) : 'default-image-url.jpg'; // Placeholder image if no photo available
                     
                     placeDiv.innerHTML = `
                         <div>
@@ -305,7 +305,7 @@
                         </div>
                         <div class="shop-content">
                             <a href="https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${place.place_id}" class="shop-name" target="_blank">${place.name}</a>
-                            <p>${generateStars(place.rating)}</p>
+                            <p>Rating: <span class="rating">${place.rating}<i class="fa fa-star"></i></span></p>
                             <p>Distance: ${distance} km</p>
                         </div>
                     `;
