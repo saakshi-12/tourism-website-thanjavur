@@ -246,71 +246,50 @@
         document.getElementById('price-value').textContent = `₹145 - ₹${value}`;
     }
 
-    // Haversine formula to calculate distance between two points
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Radius of the Earth in kilometers
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const distance = R * c; // Distance in km
-        return distance.toFixed(2); // Return 2 decimal points
-    }
-
     // Function to get nearby places using Google Places API
     function getNearbyPlaces() {
         const radius = document.getElementById('radius').value * 1000; // Convert to meters
         const minRating = document.getElementById('rating').value;
-        const maxPrice = document.getElementById('price').value; 
+        const maxPrice = document.getElementById('price').value; // Use this if you want to filter by minimum price level
 
         const location = new google.maps.LatLng(10.7823, 79.1310); // Big Temple (Brihadeeswarar Temple) in Thanjavur
         const request = {
             location: location,
             radius: radius,
-            type: ['restaurant'], 
+            type: ['restaurant'], // Type of place is now 'restaurant'
             maxPriceLevel: maxPrice,
-            keyword: 'restaurant'
+            keyword: 'restaurant' // Search for 'restaurant'
         };
 
         const service = new google.maps.places.PlacesService(document.createElement('div'));
 
-        service.nearbySearch(request, (results, status) => {
+        service.nearbySearch(request, function (results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-                displayResults(results, minRating, location);
+                displayResults(results, minRating);
             }
         });
     }
 
-    // Function to display results with filtering by rating and distance
-    function displayResults(places, minRating, userLocation) {
-        const resultsDiv = document.getElementById('results');
-        resultsDiv.innerHTML = '';
+    function displayResults(places, minRating) {
+        const resultsContainer = document.getElementById('results');
+        resultsContainer.innerHTML = ''; // Clear previous results
 
-        places.forEach((place) => {
+        places.forEach(place => {
             if (place.rating >= minRating) {
-                const distance = calculateDistance(userLocation.lat(), userLocation.lng(), place.geometry.location.lat(), place.geometry.location.lng());
-
-                // Filter out places based on radius (if distance exceeds filter radius, skip this place)
-                if (distance <= document.getElementById('radius').value) {
-                    const placeDiv = document.createElement('div');
-                    placeDiv.classList.add('shop');
-
-                    const img = place.photos ? place.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) : 'default-image-url.jpg'; // Placeholder image if no photo available
-                    
-                    placeDiv.innerHTML = `
-                        <div>
-                            <img src="${img}" alt="${place.name}">
-                        </div>
-                        <div class="shop-content">
-                            <a href="https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${place.place_id}" class="shop-name" target="_blank">${place.name}</a>
-                            <p>Rating: <span class="rating">${place.rating}<i class="fa fa-star"></i></span></p>
-                            <p>Distance: ${distance} km</p>
-                        </div>
-                    `;
-                    resultsDiv.appendChild(placeDiv);
-                }
+                const shopDiv = document.createElement('div');
+                shopDiv.className = 'shop';
+                const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
+                // Include place name and address in the search query
+                const query = `${place.name} ${place.vicinity}`;
+                const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+                shopDiv.innerHTML = `
+                    <img src="${image}" alt="${place.name}">
+                    <div class="shop-content">
+                        <a href="${link}" class="shop-name" target="_blank">${place.name}</a>
+                        <p> ${generateStars(place.rating)}</p>
+                    </div>
+                `;
+                resultsContainer.appendChild(shopDiv);
             }
         });
     }
