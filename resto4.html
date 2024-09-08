@@ -246,6 +246,18 @@
         document.getElementById('price-value').textContent = `₹145 - ₹${value}`;
     }
 
+    // Function to calculate distance using Haversine formula
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Earth's radius in kilometers
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lon2 - lon1) * (Math.PI / 180);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // Distance in kilometers
+    }
+    
     // Function to get nearby places using Google Places API
     function getNearbyPlaces() {
         const radius = document.getElementById('radius').value * 1000; // Convert to meters
@@ -270,29 +282,36 @@
         });
     }
 
-    function displayResults(places, minRating) {
-        const resultsContainer = document.getElementById('results');
-        resultsContainer.innerHTML = ''; // Clear previous results
-
-        places.forEach(place => {
-            if (place.rating >= minRating) {
-                const shopDiv = document.createElement('div');
-                shopDiv.className = 'shop';
-                const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
-                // Include place name and address in the search query
-                const query = `${place.name} ${place.vicinity}`;
-                const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-                shopDiv.innerHTML = `
-                    <img src="${image}" alt="${place.name}">
-                    <div class="shop-content">
-                        <a href="${link}" class="shop-name" target="_blank">${place.name}</a>
-                        <p> ${generateStars(place.rating)}</p>
-                    </div>
-                `;
-                resultsContainer.appendChild(shopDiv);
-            }
-        });
-    }
+     function displayResults(places, minRating) {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = ''; // Clear previous results
+        
+            const sampleImage = 'https://srejonee.com/wp-content/uploads/2023/08/blog-img-5.jpg'; // Replace with your sample image URL
+        
+            places.forEach(place => {
+                if (place.rating >= minRating) {
+                    const distance = calculateDistance(
+                        templeLocation.lat, templeLocation.lng,
+                        place.geometry.location.lat(), place.geometry.location.lng()
+                    );
+    
+                    const shopDiv = document.createElement('div');
+                    shopDiv.className = 'shop';
+                    const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : sampleImage;
+                    const query = `${place.name} ${place.vicinity}`;
+                    const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+                    shopDiv.innerHTML = `
+                        <img src="${image}" alt="${place.name}">
+                        <div class="shop-content">
+                            <a href="${link}" class="shop-name" target="_blank">${place.name}</a>
+                            <p>${generateStars(place.rating)}</p>
+                            <p><b>Distance: ${distance.toFixed(2)} km</b></p>
+                        </div>
+                    `;
+                    resultsContainer.appendChild(shopDiv);
+                }
+            });
+        }
     // Generate stars for rating
 function generateStars(rating) {
     const fullStars = Math.floor(rating);
