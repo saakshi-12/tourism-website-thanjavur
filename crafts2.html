@@ -13,19 +13,14 @@
             padding: 20px;
             border: 1px solid #ababab;
             border-radius: 10px;
-            background-color: #ebfbce; /* Lighten background */
+            background-color: #add0f6;
             width: 320px;
-            position: fixed;
-            left: 10px;
-            top: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
-            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            float: left;
+            top: 0;
         }
-
-        .filter-section:hover {
-            transform: translateY(-5px);
-        }
-
+    
         .filter-section h2 {
             font-family: 'Arial', sans-serif;
             font-size: 1.6em;
@@ -33,20 +28,20 @@
             margin-bottom: 15px;
             text-align: center;
         }
-
+    
         .filter-section label {
             font-family: 'Arial', sans-serif;
             font-size: 1.1em;
             color: #555;
-            display: block;
             margin-top: 10px;
+            display: block;
         }
-
+    
         .filter-section input[type="range"] {
             width: 100%;
             margin: 10px 0;
         }
-
+    
         .filter-section button {
             width: 100%;
             padding: 10px;
@@ -58,17 +53,17 @@
             font-size: 1.1em;
             transition: background-color 0.3s ease;
         }
-
+    
         .filter-section button:hover {
             background-color: #0056b3;
         }
-
+    
         /* Results section */
         .results {
             margin-left: 350px; /* Adjust based on filter sidebar width */
             padding: 20px;
         }
-
+    
         .shop {
             display: flex;
             align-items: center;
@@ -80,26 +75,25 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, box-shadow 0.2s;
         }
-
+    
         .shop:hover {
             transform: scale(1.02);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             background-color: #c8dcf2;
         }
-
+    
         .shop img {
             border-radius: 8px;
-            width: 90%;
-            height: auto; /* Maintain aspect ratio */
-            max-height: 200px; /* Limit maximum height */
+            width: 150px;
+            height: 100px;
             object-fit: cover;
             margin-right: 15px;
         }
-
+    
         .shop-content {
             flex: 1;
         }
-
+    
         .shop-name {
             font-size: 1.5em;
             font-weight: bold;
@@ -108,94 +102,106 @@
             display: block;
             margin-bottom: 10px;
         }
-
+    
         .shop-name:hover {
             text-decoration: none;
         }
-
+    
         .shop p {
             margin: 5px 0;
             font-size: 1em;
             color: #373737;
         }
-
+    
         .rating {
             font-size: 1.5em;
-            color: #f39c12; /* Golden/yellow color for stars */
+            font-weight: bold; /* Make the text bold */
         }
 
+        /* Specific styling for the Font Awesome stars */
         .rating i {
-            color: #f39c12; /* Star color */
+            color: #f39c12; /* Golden/yellow color for the stars */
         }
-
-        /* Media queries */
+    
+        /* Media queries for responsiveness */
         @media screen and (max-width: 1024px) {
             .filter-section {
                 width: 100%;
+                margin-left: 0;
+                float: none;
                 position: relative;
             }
-
+    
             .results {
                 margin-left: 0;
+                padding: 10px;
             }
         }
-
+    
         @media screen and (max-width: 768px) {
             .filter-section {
                 width: 100%;
+                padding: 10px;
                 margin-bottom: 20px;
             }
-
+    
+            .results {
+                margin-left: 0;
+                padding: 10px;
+            }
+    
             .shop img {
                 width: 120px;
                 height: 90px;
             }
-
+    
             .shop-name {
                 font-size: 1.2em;
             }
-
+    
             .filter-section h2 {
                 font-size: 1.4em;
             }
         }
-
+    
         @media screen and (max-width: 480px) {
             .filter-section {
                 width: 100%;
                 padding: 5px;
                 margin-bottom: 15px;
             }
-
+    
             .shop {
                 flex-direction: column;
                 text-align: center;
             }
-
+    
             .shop img {
-                width: 90%;
-                height: 150px;
                 margin-bottom: 10px;
             }
-
+    
             .rating {
                 font-size: 1.2em;
             }
-
+    
             .shop-name {
                 font-size: 1.1em;
             }
-
+    
             .filter-section h2 {
                 font-size: 1.2em;
             }
-
+    
             .filter-section label {
                 font-size: 1em;
             }
-
+    
             .filter-section button {
                 font-size: 1em;
+            }
+    
+            .results {
+                margin-left: 0;
             }
         }
     </style>
