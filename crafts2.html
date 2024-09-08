@@ -5,26 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nearby Handicraft Shops with Filters</title>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh0njEqr8kKXrqCmO90m2ejTWg9ldZIIY&libraries=places"></script>
-    <link rel="stylesheet" href="your-existing-styles.css"> <!-- Link to your existing stylesheet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
     <style>
-        /* Your existing styles here */
+        /* Filter section */
         .filter-section {
             margin: 20px;
             padding: 20px;
             border: 1px solid #ababab;
             border-radius: 10px;
-            background-color: #ebfbce; /* Lighten the background color for a softer look */
+            background-color: #ebfbce; /* Lighten background */
             width: 320px;
             position: fixed;
             left: 10px;
             top: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
-            transition: transform 0.3s ease-in-out; /* Smooth transition for hover effects */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+            transition: transform 0.3s ease-in-out;
         }
 
         .filter-section:hover {
-            transform: translateY(-5px); /* Slight lift effect on hover */
+            transform: translateY(-5px);
         }
 
         .filter-section h2 {
@@ -39,8 +38,8 @@
             font-family: 'Arial', sans-serif;
             font-size: 1.1em;
             color: #555;
-            margin-top: 10px;
             display: block;
+            margin-top: 10px;
         }
 
         .filter-section input[type="range"] {
@@ -64,170 +63,237 @@
             background-color: #0056b3;
         }
 
+        /* Results section */
         .results {
-            margin-left: 400px; /* Adjust based on sidebar width */
+            margin-left: 350px; /* Adjust based on filter sidebar width */
             padding: 20px;
         }
 
         .shop {
-              display: flex; /* Use flexbox to align items horizontally */
-              align-items: center; /* Center items vertically */
-              border: 1px solid #ddd;
-              border-radius: 8px;
-              padding: 15px;
-              margin-bottom: 15px;
-              background-color: #f9f9f9;
-              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-              transition: transform 0.2s, box-shadow 0.2s;
-          }
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
 
-          .shop:hover {
-              transform: scale(1.02);
-              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-              background-color: #c8dcf2;
-          }
+        .shop:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #c8dcf2;
+        }
 
-          .shop img {
-              border-radius: 8px;
-              width: 150px; /* Adjust size as needed */
-              height: 100px; /* Adjust size as needed */
-              object-fit: cover; /* Maintain aspect ratio */
-              margin-right: 15px; /* Space between image and text */
-          }
+        .shop img {
+            border-radius: 8px;
+            width: 90%;
+            height: auto; /* Maintain aspect ratio */
+            max-height: 200px; /* Limit maximum height */
+            object-fit: cover;
+            margin-right: 15px;
+        }
 
-          .shop-content {
-              flex: 1; /* Take up remaining space */
-          }
+        .shop-content {
+            flex: 1;
+        }
 
-          .shop-name {
-              font-size: 1.5em;
-              font-weight: bold;
-              color: #1a6f86;
-              text-decoration: none;
-              display: block;
-              margin-bottom: 10px;
-          }
+        .shop-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1a6f86;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
 
-          .shop-name:hover {
-              text-decoration: none;
-          }
+        .shop-name:hover {
+            text-decoration: none;
+        }
 
-          .shop p {
-              margin: 5px 0;
-              font-size: 1.5em;
-              color: #373737;
-          }
+        .shop p {
+            margin: 5px 0;
+            font-size: 1em;
+            color: #373737;
+        }
 
-          .rating {
-              padding: 20px ;
-              font-size: 1.5em;
-              color: #f39c12;
-          }
+        .rating {
+            font-size: 1.5em;
+            color: #f39c12; /* Golden/yellow color for stars */
+        }
+
+        .rating i {
+            color: #f39c12; /* Star color */
+        }
+
+        /* Media queries */
+        @media screen and (max-width: 1024px) {
+            .filter-section {
+                width: 100%;
+                position: relative;
+            }
+
+            .results {
+                margin-left: 0;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .filter-section {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .shop img {
+                width: 120px;
+                height: 90px;
+            }
+
+            .shop-name {
+                font-size: 1.2em;
+            }
+
+            .filter-section h2 {
+                font-size: 1.4em;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .filter-section {
+                width: 100%;
+                padding: 5px;
+                margin-bottom: 15px;
+            }
+
+            .shop {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .shop img {
+                width: 90%;
+                height: 150px;
+                margin-bottom: 10px;
+            }
+
+            .rating {
+                font-size: 1.2em;
+            }
+
+            .shop-name {
+                font-size: 1.1em;
+            }
+
+            .filter-section h2 {
+                font-size: 1.2em;
+            }
+
+            .filter-section label {
+                font-size: 1em;
+            }
+
+            .filter-section button {
+                font-size: 1em;
+            }
+        }
     </style>
 </head>
 <body>
 
-<!-- Existing Header or Navbar -->
 <div class="filter-section">
-    <h2>Filter Nearby Handicraft Shops</h2>
+    <h2>Filter Handicraft Shops</h2>
     <label for="radius">Distance (km): <span id="radius-value">5</span></label>
     <input type="range" id="radius" min="1" max="50" value="5" step="1" oninput="updateRadiusValue(this.value)">
     <br/>
     <label for="rating">Minimum Rating: <span id="rating-value">3</span></label>
     <input type="range" id="rating" min="1" max="5" value="3" step="0.5" oninput="updateRatingValue(this.value)">
     <br/>
-    <button onclick="getNearbyPlaces()">Go</button>
+    <button onclick="getNearbyPlaces()">Search</button>
 </div>
 
 <div class="results" id="results">
-    <!-- Your existing content structure for displaying places -->
+    <!-- Content structure for displaying places -->
 </div>
 
 <script>
-// Update filter values display
-function updateRadiusValue(value) {
-    document.getElementById('radius-value').textContent = value;
-}
+    function updateRadiusValue(value) {
+        document.getElementById('radius-value').textContent = value;
+    }
 
-function updateRatingValue(value) {
-    document.getElementById('rating-value').textContent = value;
-}
+    function updateRatingValue(value) {
+        document.getElementById('rating-value').textContent = value;
+    }
 
-// Function to get nearby places using Google Places API
-function getNearbyPlaces() {
-    const radius = document.getElementById('radius').value * 1000; // Convert to meters
-    const minRating = document.getElementById('rating').value;
+    // Function to get nearby places using Google Places API
+    function getNearbyPlaces() {
+        const radius = document.getElementById('radius').value * 1000; // Convert to meters
+        const minRating = document.getElementById('rating').value;
 
-    const location = new google.maps.LatLng(10.7823, 79.1310); // Example location
-    const request = {
-        location: location,
-        radius: radius,
-        type: ['store'], // Use 'store' or 'point_of_interest' as a general type for shops
-        keyword: 'handicraft' // Search for 'handicraft'
+        const location = new google.maps.LatLng(10.7823, 79.1310); // Example: Big Temple, Thanjavur
+        const request = {
+            location: location,
+            radius: radius,
+            type: ['store'], // 'store' for handicraft shops
+            keyword: 'handicraft'
+        };
+
+        const service = new google.maps.places.PlacesService(document.createElement('div'));
+        service.nearbySearch(request, function (results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                displayResults(results, minRating);
+            }
+        });
+    }
+
+    function displayResults(places, minRating) {
+        const resultsContainer = document.getElementById('results');
+        resultsContainer.innerHTML = ''; // Clear previous results
+
+        places.forEach(place => {
+            if (place.rating >= minRating) {
+                const shopDiv = document.createElement('div');
+                shopDiv.className = 'shop';
+                const image = place.photos && place.photos[0] ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
+                const query = `${place.name} ${place.vicinity}`;
+                const link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+                shopDiv.innerHTML = `
+                    <img src="${image}" alt="${place.name}">
+                    <div class="shop-content">
+                        <a href="${link}" class="shop-name" target="_blank">${place.name}</a>
+                        <p>${generateStars(place.rating)}</p>
+                    </div>
+                `;
+                resultsContainer.appendChild(shopDiv);
+            }
+        });
+    }
+
+    function generateStars(rating) {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+        let starsHtml = '<span class="rating">';
+
+        for (let i = 0; i < fullStars; i++) {
+            starsHtml += '<i class="fas fa-star"></i>';
+        }
+
+        if (halfStar) {
+            starsHtml += '<i class="fas fa-star-half-alt"></i>';
+        }
+
+        for (let i = 0; i < emptyStars; i++) {
+            starsHtml += '<i class="far fa-star"></i>';
+        }
+
+        starsHtml += ` ${rating}</span>`;;
+        return starsHtml;
+    }
+    window.onload = function () {
+        getNearbyPlaces(); // Call the function to fetch and display results
     };
-
-    const service = new google.maps.places.PlacesService(document.createElement('div'));
-
-    service.nearbySearch(request, function (results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-            displayResults(results, minRating);
-        }
-    });
-}
-
-function displayResults(places, minRating) {
-    const resultsContainer = document.getElementById('results');
-    resultsContainer.innerHTML = ''; // Clear previous results
-
-    places.forEach(place => {
-        if (place.rating >= minRating) {
-            const shopDiv = document.createElement('div');
-            shopDiv.classList.add('shop');
-
-            // Add the place photo
-            const shopImage = document.createElement('img');
-            if (place.photos && place.photos[0]) {
-                const photoUrl = place.photos[0].getUrl({ maxWidth: 150, maxHeight:100 }); // Adjust the maxWidth as needed
-                shopImage.src = photoUrl;
-            } else {
-                // Default image URL when no photo is available
-                shopImage.src = 'https://c8.alamy.com/comp/C319JA/handicraft-shops-C319JA.jpg'; // Placeholder image
-            }
-            shopDiv.appendChild(shopImage);
-
-            // Wrap the place name in a link to Google Maps
-            const shopName = document.createElement('a');
-            shopName.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name)}&query_place_id=${place.place_id}`;
-            shopName.target = '_blank';
-            shopName.textContent = place.name;
-            shopName.classList.add('shop-name');
-            shopDiv.appendChild(shopName);
-
-            // Add star rating
-            const ratingDiv = document.createElement('div');
-            ratingDiv.classList.add('rating');
-            const stars = Math.round(place.rating); // Round to the nearest whole number for star count
-            for (let i = 0; i < 5; i++) {
-                const star = document.createElement('i');
-                star.className = i < stars ? 'fas fa-star' : 'far fa-star'; // Full star if rating >= index, otherwise empty
-                ratingDiv.appendChild(star);
-            }
-            shopDiv.appendChild(ratingDiv);
-
-            // Add price level
-            // const shopPrice = document.createElement('p');
-            // shopPrice.textContent = `Price Level: ${place.price_level !== undefined ? place.price_level : 'N/A'}`;
-            // shopDiv.appendChild(shopPrice);
-
-            resultsContainer.appendChild(shopDiv);
-        }
-    });
-}
-
-// Load default results on page load
-window.onload = function () {
-    getNearbyPlaces();
-};
 </script>
 </body>
 </html>
