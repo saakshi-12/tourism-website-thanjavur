@@ -305,7 +305,7 @@
                         </div>
                         <div class="shop-content">
                             <a href="https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${place.place_id}" class="shop-name" target="_blank">${place.name}</a>
-                            <p>Rating: <span class="rating">${place.rating}<i class="fa fa-star"></i></span></p>
+                            <p>${generateStars(place.rating)}</p>
                             <p>Distance: ${distance} km</p>
                         </div>
                     `;
