@@ -223,7 +223,7 @@
 </div>
 
 <script>
-    const templeLocation = { lat: 12.9716, lng: 77.5946 }; // Example location
+    const templeLocation = { lat: 10.7828, lng: 79.1319 }; //brihadeeshwara temple
 
     function updateRadiusValue(value) {
         document.getElementById('radius-value').textContent = value;
@@ -299,6 +299,10 @@
         starsHtml += '</span>';
         return starsHtml;
     }
+    
+    window.onload = function () {
+        getNearbyPlaces(); // Call the function to fetch and display results
+    };
 </script>
 
 </body>
